@@ -4,8 +4,8 @@ from rest_framework.response import Response
 import boto3
 from botocore.exceptions import NoCredentialsError
 from file.models import FileData
-ACCESS_KEY = 'AKIAJM3VGNB46N6C3HLA'
-SECRET_KEY = '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'
+ACCESS_KEY = ''
+SECRET_KEY = ''
 
 
 class FileUploadAPI(APIView):
