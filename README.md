@@ -1,2 +1,2 @@
 # datahere
-Data Sharing App
+Data Sharing App using realtime messaging (WS)
