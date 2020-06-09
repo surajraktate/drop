@@ -1,11 +1,15 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
+
 from mydataonline.constants import WEB_SOCKET_CATEGORY_LIST, WEB_SOCKET_CATEGORY_DICT
+from mydataonline.utils import get_encrypted_decrypted_name
 from clipboard.consumer_handler import get_clipboard_data, store_message_into_database
+from file.consumer_handler import get_file_data
 
 
 class WSHandler(WebsocketConsumer):
+
     def connect(self):
         """In this function we only create room"""
         self.room_name = None
@@ -14,8 +18,8 @@ class WSHandler(WebsocketConsumer):
             self.room_name = self.scope['url_route']['kwargs']['room_name']
         if not self.room_name:
             self.room_ip = self.scope.get("client")[0]
-
-        self.room_group_name = 'ws_%s' % self.room_ip and self.room_ip or self.room_name
+        name_for_room = self.room_ip and self.room_ip or self.room_name
+        self.room_group_name = 'ws_%s' % name_for_room
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
@@ -23,7 +27,13 @@ class WSHandler(WebsocketConsumer):
 
         self.accept()
 
-        self.get_initial_data()
+        initial_data = self.get_initial_data()
+
+        self.send(text_data=json.dumps({
+            'category': WEB_SOCKET_CATEGORY_DICT.get('ALL_DATA'),
+            'data': initial_data,
+            'session_id': get_encrypted_decrypted_name(name_for_room, 0)
+        }))
 
     def disconnect(self, close_code):
         # Leave room group
@@ -57,6 +67,11 @@ class WSHandler(WebsocketConsumer):
 
     def FILE(self, event):
         print("FILE", event)
+        file_data = get_file_data(self.room_name, self.room_ip)
+        self.send(text_data=json.dumps({
+            'category': WEB_SOCKET_CATEGORY_DICT.get('FILE'),
+            'data': json.dumps({"file_data": file_data})
+        }))
 
     def CLIPBOARD(self, event):
         clipboard_data = {
@@ -65,15 +80,13 @@ class WSHandler(WebsocketConsumer):
             "room_data": event.get("message")
         }
         store_message_into_database(clipboard_data)
-
         self.send(text_data=json.dumps({
             'category': WEB_SOCKET_CATEGORY_DICT.get('CLIPBOARD'),
             'data': event.get("message")
         }))
         
     def get_initial_data(self):
-        room_data = get_clipboard_data(self.room_name, self.room_ip)
-        self.send(text_data=json.dumps({
-            'category': WEB_SOCKET_CATEGORY_DICT.get('CLIPBOARD'),
-            'data': room_data
-        }))
+        clipboard_data = get_clipboard_data(self.room_name, self.room_ip)
+        file_data = get_file_data(self.room_name, self.room_ip)
+        return json.dumps({"clipboard_data": clipboard_data, "file_data": file_data})
+

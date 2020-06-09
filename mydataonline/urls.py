@@ -18,5 +18,5 @@ from django.urls import path, re_path
 from file.file_reset_api import FileUploadAPI
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path('uploadfile/', FileUploadAPI.as_view()),
+    re_path('file/', FileUploadAPI.as_view()),
 ]
