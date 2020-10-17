@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from file.file_reset_api import FileUploadAPI
+from wshandler.views import index
 urlpatterns = [
+    re_path(r'^$', index, name="index"),
     path('admin/', admin.site.urls),
     re_path('file/', FileUploadAPI.as_view()),
 ]
