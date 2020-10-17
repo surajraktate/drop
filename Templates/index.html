@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Share file and text">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <title>Data here</title>
+    <style>
+        img{
+            margin:auto
+        }
+        h5{
+            margin-top: 20px;
+            font-size: 14px;
+            font-family: sans-serif;
+            /* cursor: pointer;  */
+        }
+        .fa:hover{
+            color: blue;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .hide{
+            display: none;
+            /* visibility: hidden; */
+            width: 0%;
+            height: 0px;
+            /* margin-top: 0px; */
+        }
+        .show{
+            display: block;
+            /* visibility: visible; */
+            width: 80%;
+            height: 100%;
+            /* margin-top: 25px; */
+        }
+        .fa{
+            margin: 5px 10px 5px 10px;
+        }
+        a{
+            color: #000;
+        }
+
+        a :hover{
+            color: blue;
+        }
+
+        /*  */
+        .file-uploadd{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -254px;
+            width: 500px;
+            height: 155px;
+            border: 4px dashed #fff;
+        }
+        .file-uploadd p{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        line-height: 170px;
+        color: #000;
+        font-family: Arial;
+        }
+        .file-uploadd input{
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        outline: none;
+        opacity: 0;
+        background: transparent;
+        }
+
+    </style>
+    <script>
+        var loadFile = function(event) {
+            var data = new Image(); 
+            var a = document.createElement('h5'); 
+            data.src =  URL.createObjectURL(event.target.files[0])
+            a.innerHTML = event.target.files[0].name
+            data.classList.add('hide')
+            a.setAttribute("id", event.target.files[0].name); 
+            data.setAttribute("id", 'Img-'+event.target.files[0].name); 
+            // a.setAttribute("onclick", "showHide(event)"); 
+
+            var view = document.createElement('i'); 
+            view.setAttribute("aria-hidden", "true");
+            view.classList.add("fa");
+            view.classList.add("fa-eye");
+            view.setAttribute("id",event.target.files[0].name); 
+            view.setAttribute("onclick", "showHide(event)");
+            a.appendChild(view);
+
+            // <a href="/images/myw3schoolsimage.jpg" download>
+
+                
+            var downloadIcon = document.createElement('i'); 
+            downloadIcon.setAttribute("aria-hidden", "true");
+            downloadIcon.classList.add("fa");
+            downloadIcon.classList.add("fa-download");
+            // a.appendChild(downloadIcon);
+
+            var imgDownload = document.createElement('a'); 
+            // imgDownload.innerHTML = 'Down'
+            imgDownload.setAttribute('href',event.target.files[0].name)
+            imgDownload.setAttribute('download',event.target.files[0].name)
+            imgDownload.classList.add('add-icon')
+            a.appendChild(imgDownload);
+            // imgDownload.appendChild(downloadIcon);
+
+            
+
+            document.getElementById('temp').appendChild(a);  
+            document.getElementById('temp').appendChild(data);  
+            imgDownload.appendChild(downloadIcon);
+            console.log("======>>>",event.target.files)
+
+            
+            
+        };
+
+        var showHide = function(event){
+             console.log("====>>>",event.target.id)
+             var ele = document.getElementById('Img-'+event.target.id)
+             if(ele.classList.contains("hide")){
+                ele.classList.remove("hide");
+                ele.classList.add("show");
+             }else{
+                ele.classList.remove("show");
+                ele.classList.add("hide");
+             }
+        }
+        </script>
+  </head>
+  <body style="font-family: sans-serif;">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <div class="container pt-4 rounded" >
+        <div class="col-sm-12 py-5 border shadow-sm row "  style="background:whitesmoke;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div class="col-sm-6 border-right">
+                <div class="col-sm-12 bg-white rounded py-3">
+                    <form>
+                        <div class="form-group">
+                          <label for="roomname">Enter room name to make it personal</label>
+                          <input type="email" class="form-control" id="roomname" placeholder="Enter room name">
+                          <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                        </div>
+                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                      </form>
+                </div>
+                <div class="col-sm-12 pt-3">
+                    <div class="form-group">
+                        <!-- <label for="message">Comment:</label> -->
+                        <textarea class="form-control" rows="10" id="message"></textarea>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center mb3">
+                    <button type="button" class="btn btn-outline-primary">Refresh</button>
+                </div>
+            </div>
+            <div class="col-sm-6 border-left">
+                <div class="col-sm-12 py-3">
+                    <!-- <form>
+                        <div class="form-group">
+                          <label for="filename">Upload File here</label>
+                          <input type="file" class="form-control" id="filename" accept="image/*" name="image" onchange="loadFile(event)" placeholder="upload file here">
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <button type="submit" class="btn btn-outline-primary">upload</button>
+                        </div>
+                        
+                      </form> -->
+                      <form class="file-uploadd">
+                        <input type="file" id="filename" accept="image/*" name="image" onchange="loadFile(event)" multiple>
+                        <p>Drag your files here or click in this area.</p>
+                        <!-- <button type="submit">Upload</button> -->
+                      </form>
+                </div>
+                <div class="col-sm-12 mt-2 p-0" style="top: 90px;">
+                    <div class="col-sm-12 text-center p-0" style="max-height: 45vh;overflow-y: auto;" id="temp">
+                        <!-- <a href="#">Image 1</a10px
+                        <a href="#">Image 1</a>
+                        <img src="../../Pictures/Screenshot from 2020-10-07 22-13-04.png" style="width: 100%;">
+                    </div>
+                    <div class="col-sm-12 mt-2">
+                        <a href="#">Image 1</a>
+                        <img style="display: none;" src="../../Pictures/Screenshot from 2020-10-07 22-13-04.png" style="width: 100%;">
+                    </div>
+                    <div class="col-sm-12 mt-2">
+                        <a href="#">Image 1</a>
+                        <img style="display: none;" src="../../Pictures/Screenshot from 2020-10-07 22-13-04.png" style="width: 100%;">
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
