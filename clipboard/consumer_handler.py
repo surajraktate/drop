@@ -43,6 +43,6 @@ def get_clipboard_data(room_name, room_ip):
             clipboard_obj = ClipBoardData.objects.get(room_ip=room_ip)
     except Exception as e:
         print(e)
-        return "Data not found"
+        return None
     else:
         return clipboard_obj.room_data

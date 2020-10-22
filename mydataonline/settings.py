@@ -130,6 +130,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    BASE_DIR + '/static/',
+    '/var/www/static/',  # <= don't forget a comma here
+)
 WSGI_APPLICATION = 'mydataonline.wsgi.application'
 
 # Channel application and layer settings
