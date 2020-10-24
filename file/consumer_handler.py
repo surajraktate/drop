@@ -1,4 +1,4 @@
-from file.models import FileData
+from file.models import FileData, File
 
 
 def form_ws_message_data(data):
@@ -20,13 +20,13 @@ def get_file_data(room_name=None, room_ip=None):
 
     try:
         if room_name:
-            clipboard_obj = FileData.objects.filter(room_name=room_name)
+            clipboard_obj = File.objects.filter(room_name=room_name).values('id', 'file', 'remark', 'room_ip', 'room_name')
         elif room_ip:
-            clipboard_obj = FileData.objects.filter(room_ip=room_ip)
+            clipboard_obj = File.objects.filter(room_ip=room_ip).values('id', 'file', 'remark', 'room_ip', 'room_name',)
         else:
-            clipboard_obj = FileData.objects.all()
+            clipboard_obj = File.objects.all()
     except Exception as e:
-        print(e)
+        print("Data not found", e)
         return "Data not found"
     else:
-        return form_ws_message_data(clipboard_obj)
+        return [d for d in clipboard_obj]

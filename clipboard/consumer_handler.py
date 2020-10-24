@@ -1,4 +1,4 @@
-from clipboard.models import  ClipBoardData
+from clipboard.models import ClipBoardData
 
 
 def store_message_into_database(clipboard_request_data):

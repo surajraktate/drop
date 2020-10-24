@@ -98,5 +98,6 @@ class WSHandler(WebsocketConsumer):
     def get_initial_data(self):
         clipboard_data = get_clipboard_data(self.room_name, self.room_ip)
         file_data = get_file_data(self.room_name, self.room_ip)
+        print("file_data : ", file_data)
         return json.dumps({"clipboard_data": clipboard_data, "file_data": file_data})
 
