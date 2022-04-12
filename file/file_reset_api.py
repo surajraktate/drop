@@ -40,6 +40,7 @@ class FileUploadAPI(APIView):
         :return:
         """
         file_obj = request.FILES['file']
+        print(file_obj)
         self.room_ip = request.META.get('REMOTE_ADDR')
         self.room_name = request.data.get("room_name")
         self.save_file_on_disk(file_obj)
@@ -125,35 +126,38 @@ class FileUploadAPI(APIView):
 class FileView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         """
 
         """
         self.room_ip = request.META.get('REMOTE_ADDR')
         self.room_name = request.data.get("room_name") if request.data.get("room_name") else None
-
-        request_data = request.data
+        print("request.data : ", request.data.get("file"))
+        request_data = dict({"file": request.data.get("file")})
 
         try:
             request_data.update({"room_name": self.room_name, "room_ip": self.room_ip})
         except Exception as e:
-            print("e")
-
+            print("e", e)
+        print(request_data)
         file_serializer = FileSerializer(data=request_data)
         if file_serializer.is_valid():
             file_serializer.save()
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
+            print(file_serializer.errors)
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, id):
+    def delete(self, request, file_id):
         """
         this function delete file from s3 and database
         :param request:
+        :param file_id:
         :return:
         """
+
         try:
-            file_object = File.objects.get(id=id)
+            file_object = File.objects.get(id=file_id)
         except Exception as e:
             print("Error To delete file", e)
             return Response({"error": "Unable to delete file"}, status=400)

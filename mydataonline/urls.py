@@ -23,7 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     re_path(r'^$', index, name="index"),
     path('admin/', admin.site.urls),
-    re_path('file(/?(?P<id>\d+)*)', FileView.as_view()),
+    re_path('file(/?(?P<file_id>\d+)*)', FileView.as_view()),
 ]
 
 if settings.DEBUG:
