@@ -90,6 +90,7 @@ class WSHandler(WebsocketConsumer):
         }))
 
     def CLIPBOARD(self, event):
+        print(event)
         clipboard_data = {
             "room_name": self.room_name,
             "room_ip": self.room_ip,

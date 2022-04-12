@@ -44,7 +44,7 @@
         <div class="row perfect-center">
             <div class=" perfect-center">
                 <div class="useline">
-                    Securely Share files across multiple devices
+                    Securely Share files and Text across multiple devices
                 </div>
             </div>
         </div>
@@ -52,11 +52,11 @@
             <div class="  col-md-12 col-lg-6 col-xs-12 col-sm-12 outer-box">
                 <!-- <label style="display: block;"> -->
                 <div class="inner-box m-3 perfect-center" id="file-text-upload">
-                    <div class="inner-text"     >
-                        Drag and Drop files to upload or paste text or notes
-                    </div>
-                    <input type="file" id="file-upload" hidden>
-                    <input type="text" id="clipboard" hidden>
+<!--                    <div class="inner-text">-->
+<!--                        Drag and Drop files to upload or paste text or notes-->
+<!--                    </div>-->
+<!--                    <input type="file" id="file-upload" hidden>-->
+                    <textarea  id="clipboard" class="clipboard-css" placeholder="Paste Your Text Here" wrap="hard"></textarea>
                 </div>
                 <!-- </label> -->
             </div>
@@ -70,45 +70,7 @@
 
         <div class="container mt-5 mb-3 file-text">
             <div class="row" id="file-list">
-                <div class="col-md-4 ">
-                    <div class="card p-3 mb-2 card-shadow">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex flex-row align-items-center ">
-                                <div class="icon"> <i class="fa fa-file-pdf-o" style="font-size:36px; color:#007bff;"></i> </div>
-                                <div class="ms-2 c-details">
-                                    <h6 class="mb-0">Work.pdf</h6> <span>2 Mins ago</span>
-                                </div>
-                            </div>
-                            <div class="badge"> <span><img src="../static/assets/Favourites-star.svg"></span> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 ">
-                    <div class="card p-3 mb-2 card-shadow">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex flex-row align-items-center">
-                                <div class="icon"> <i class="fa fa-file-word-o" style="font-size:36px; color:#007bff;"></i> </div>
-                                <div class="ms-2 c-details">
-                                    <h6 class="mb-0">documentation.docx</h6> <span>10 Mins ago</span>
-                                </div>
-                            </div>
-                            <div class="badge"> <span><img src="../static/assets/Favourites-star.svg"></span> </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 ">
-                    <div class="card p-3 mb-2 card-shadow">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex flex-row align-items-center">
-                                <div class="icon"> <i class="fa fa-file-excel-o" style="font-size:36px; color:#007bff;"></i></div>
-                                <div class="ms-2 c-details">
-                                    <h6 class="mb-0">sitemap.xml</h6> <span>0 Mins ago</span>
-                                </div>
-                            </div>
-                            <div class="badge"> <span><img src="../static/assets/Favourites-star.svg"></span> </div>
-                        </div>
-                    </div>
-                </div>
+                <!--Adding file here using javascript-->
             </div>
         </div>
 

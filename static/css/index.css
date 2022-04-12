@@ -31,13 +31,7 @@ h5 {
     padding: 6px;
 }
 
-input {
-    position: absolute;
-    font-size: 50px;
-    opacity: 0;
-    right: 0;
-    top: 0;
-}
+
 
 .logo-title {
     font-size: larger;
@@ -88,8 +82,8 @@ input {
     font-family: Quicksand;
     font-style: normal;
     font-weight: bold;
-    font-size: 48px;
-    line-height: 62px;
+    font-size: 45px;
+    line-height: 60px;
     /* or 129% */
     text-align: center;
     color: #243597;
@@ -120,7 +114,7 @@ input {
     background: #FFFFFF;
     border: 2px dashed #B1BDFF;
     box-sizing: border-box;
-    border-radius: 20px;
+    /*border-radius: 20px;*/
 }
 
 .box-line {
@@ -361,4 +355,16 @@ text-align: left;
 .card-shadow{
     box-shadow: 0px 3px 10px 2px rgba(33, 47, 123, 0.1);
     border-radius: 20px;
+}
+
+.clipboard-css{
+    height: 100% !important;
+    width: 100% !important;
+    border: none;
+    outline:none;
+    white-space: pre-wrap;
+}
+
+textarea::placeholder {
+    text-align: center;
 }

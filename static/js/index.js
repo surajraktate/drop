@@ -2,8 +2,13 @@ $( document ).ready(function() {
 
     var private_name = null;
     var session_id = null;
+    var typing = false
     var ws = new WebSocket("ws://127.0.0.1:8000/ws/")
+
     // JQuery Event
+
+    $('#clipboard').focus()
+
     $("#file").on("change", function(event){
         apiUploadFile(event)
     })
@@ -12,13 +17,24 @@ $( document ).ready(function() {
         apiDeleteFile(event.target.id)
     })
 
+    $('#clipboard').bind('input propertychange', function(event) {
+        typing = true
+        ws.send(JSON.stringify({
+            "category":"CLIPBOARD",
+            "private_name": private_name,
+            "data": event.target.value
+        }))
+    });
+
     $('#toggle-two').bootstrapToggle({
       on: 'Detail View',
       off: 'List View'
     });
 
+    // WebSocket handling
+
     ws.onopen = (event) => {
-        toastr.success('You Connected Successfully', 'Success', {timeOut: 5000})
+        toastr.success('You Are Connected Successfully', 'Success', {timeOut: 5000})
     };
 
     ws.onmessage = (event) => {
@@ -27,7 +43,8 @@ $( document ).ready(function() {
         switch(onMessageData.category){
             case "ALL_DATA":
                 toastr.info('You Have All Data Now', 'Information', {timeOut: 5000})
-                displayFiles(onMessageData.data.file_data)
+                displayFiles(onMessageData.data.file_data);
+                displayClipboard(onMessageData.data.clipboard_data);
                 break
             case "FILE":
                 toastr.success('Update File List', 'Success Alert', {timeOut: 5000})
@@ -35,11 +52,14 @@ $( document ).ready(function() {
                 break
             case "CLIPBOARD":
                 toastr.success('Text Updated', 'Success Alert', {timeOut: 50000})
+                displayClipboard(onMessageData.data)
                 break
         }
         session_id = onMessageData.session_id;
         private_name = onMessageData.private_name;
     };
+
+    // Util Methods
 
     let displayFiles = (fileList) => {
         $('#file-list').empty();
@@ -48,7 +68,7 @@ $( document ).ready(function() {
                 <div class="card p-3 mb-2 card-shadow">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex flex-row align-items-center ">
-                            <div class="icon"> <i class="fa fa-file-pdf-o" style="font-size:36px; color:#007bff;"></i> </div>
+                            <div class="icon"> <i class="fa fa-file" style="font-size:36px; color:#007bff;"></i> </div>
                             <div class="ms-2 c-details">
                                 <h6 class="mb-0">${item.file}</h6> <span>${item.timestamp}</span>
                             </div>
@@ -63,6 +83,13 @@ $( document ).ready(function() {
             </div>`)
         })
     }
+
+    let displayClipboard = (clipboardData) => {
+        if(!typing){
+            $('#clipboard').val(clipboardData);
+        }
+    }
+    //  API Handling
 
     let apiDeleteFile = (fileId) => {
         var settings = {
