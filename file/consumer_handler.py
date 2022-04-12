@@ -20,13 +20,14 @@ def get_file_data(room_name=None, room_ip=None):
 
     try:
         if room_name:
-            clipboard_obj = File.objects.filter(room_name=room_name).values('id', 'file', 'remark', 'room_ip', 'room_name')
+            clipboard_obj = File.objects.filter(room_name=room_name)
         elif room_ip:
-            clipboard_obj = File.objects.filter(room_ip=room_ip).values('id', 'file', 'remark', 'room_ip', 'room_name',)
+            clipboard_obj = File.objects.filter(room_ip=room_ip)
         else:
             clipboard_obj = File.objects.all()
     except Exception as e:
         print("Data not found", e)
         return "Data not found"
     else:
-        return [d for d in clipboard_obj]
+
+        return [d.get_formatted_data() for d in clipboard_obj]

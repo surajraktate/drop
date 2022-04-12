@@ -158,11 +158,11 @@ class FileView(APIView):
 
         try:
             file_object = File.objects.get(id=file_id)
+            file_object.file.delete()
         except Exception as e:
             print("Error To delete file", e)
             return Response({"error": "Unable to delete file"}, status=400)
         else:
-
             file_object.delete()
             return Response(status=204)
 

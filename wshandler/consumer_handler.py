@@ -1,5 +1,6 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
+import redis
 import json
 
 from mydataonline.constants import WEB_SOCKET_CATEGORY_LIST, WEB_SOCKET_CATEGORY_DICT
@@ -9,6 +10,12 @@ from file.consumer_handler import get_file_data
 
 
 class WSHandler(WebsocketConsumer):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.room_group_name = None
+        self.room_name = None
+        self.room_ip = None
 
     def connect(self):
         """In this function we only create room"""
@@ -24,7 +31,7 @@ class WSHandler(WebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-
+        print(self.scope["session"].items())
         self.accept()
 
         initial_data = self.get_initial_data()
@@ -79,7 +86,7 @@ class WSHandler(WebsocketConsumer):
         file_data = get_file_data(self.room_name, self.room_ip)
         self.send(text_data=json.dumps({
             'category': WEB_SOCKET_CATEGORY_DICT.get('FILE'),
-            'data': json.dumps({"file_data": file_data})
+            'data': file_data
         }))
 
     def CLIPBOARD(self, event):
@@ -98,6 +105,5 @@ class WSHandler(WebsocketConsumer):
     def get_initial_data(self):
         clipboard_data = get_clipboard_data(self.room_name, self.room_ip)
         file_data = get_file_data(self.room_name, self.room_ip)
-        print("file_data : ", file_data)
-        return json.dumps({"clipboard_data": clipboard_data, "file_data": file_data})
+        return {"clipboard_data": clipboard_data, "file_data": file_data}
 

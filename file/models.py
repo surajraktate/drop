@@ -14,3 +14,9 @@ class File(models.Model):
     file = models.FileField(blank=False, null=False)
     remark = models.CharField(max_length=20, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def get_formatted_data(self):
+        return {'id': self.id, 'file': str(self.file),
+                'remark': self.remark, 'room_ip': self.room_ip,
+                'room_name': self.room_ip, 'timestamp': str(self.timestamp).split(" ")[0] if str(self.timestamp) else ""
+                }
