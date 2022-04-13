@@ -3,6 +3,7 @@ $( document ).ready(function() {
     var private_name = null;
     var session_id = null;
     var typing = false
+    var timer = null;
     var ws = new WebSocket("ws://127.0.0.1:8000/ws/")
 
     // JQuery Event
@@ -18,12 +19,8 @@ $( document ).ready(function() {
     })
 
     $('#clipboard').bind('input propertychange', function(event) {
-        typing = true
-        ws.send(JSON.stringify({
-            "category":"CLIPBOARD",
-            "private_name": private_name,
-            "data": event.target.value
-        }))
+        clearTimeout(timer);
+        timer = setTimeout(() => sendClipboardData(event.target.value), 1000)
     });
 
     $('#toggle-two').bootstrapToggle({
@@ -51,7 +48,7 @@ $( document ).ready(function() {
                 displayFiles(onMessageData.data)
                 break
             case "CLIPBOARD":
-                toastr.success('Text Updated', 'Success Alert', {timeOut: 50000})
+                toastr.success('Text Updated', 'Success Alert', {timeOut: 3000})
                 displayClipboard(onMessageData.data)
                 break
         }
@@ -85,9 +82,7 @@ $( document ).ready(function() {
     }
 
     let displayClipboard = (clipboardData) => {
-        if(!typing){
-            $('#clipboard').val(clipboardData);
-        }
+        $('#clipboard').val(clipboardData);
     }
     //  API Handling
 
@@ -147,6 +142,15 @@ $( document ).ready(function() {
         }
 
         $.ajax(settings)
+    }
+
+    let sendClipboardData = (clipboardData) => {
+
+        ws.send(JSON.stringify({
+            "category":"CLIPBOARD",
+            "private_name": private_name,
+            "data": clipboardData
+        }))
     }
 
 });
