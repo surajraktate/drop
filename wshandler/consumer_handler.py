@@ -31,7 +31,7 @@ class WSHandler(WebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        print(self.scope["session"].items())
+
         self.accept()
 
         initial_data = self.get_initial_data()
@@ -45,7 +45,7 @@ class WSHandler(WebsocketConsumer):
 
     def disconnect(self, close_code):
         # Leave room group
-        print("close_code ", close_code)
+
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name,
             self.channel_name
@@ -82,7 +82,6 @@ class WSHandler(WebsocketConsumer):
         print("MESSAGE", event)
 
     def FILE(self, event):
-        print("FILE", event)
         file_data = get_file_data(self.room_name, self.room_ip)
         self.send(text_data=json.dumps({
             'category': WEB_SOCKET_CATEGORY_DICT.get('FILE'),
@@ -90,7 +89,6 @@ class WSHandler(WebsocketConsumer):
         }))
 
     def CLIPBOARD(self, event):
-        print(event)
         clipboard_data = {
             "room_name": self.room_name,
             "room_ip": self.room_ip,

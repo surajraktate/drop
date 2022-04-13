@@ -358,8 +358,8 @@ text-align: left;
 }
 
 .clipboard-css{
-    height: 100% !important;
     width: 100% !important;
+    height: 100% !important;
     border: none;
     outline:none;
     white-space: pre-wrap;
